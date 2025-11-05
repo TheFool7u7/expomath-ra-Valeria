@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Expomath - RA (Cámara)</title>
-
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.7.6/aframe/build/aframe-ar.min.js"></script>
 
@@ -23,11 +22,7 @@
       margin: 0;
       padding: 0;
       overflow: hidden;
-      /* ---
-        LA CORRECCIÓN ESTÁ AQUÍ: 
-        Cambiamos de 'background: #000000;' a 'background: transparent;'
-        ---
-      */
+      /* --- CORRECCIÓN DE FONDO --- */
       background: transparent;
       -webkit-tap-highlight-color: transparent;
       touch-action: none;
@@ -39,9 +34,11 @@
       left: 0;
       width: 100%;
       height: 100%;
+      /* --- CORRECCIÓN DE VISIBILIDAD --- */
+      visibility: visible;
     }
 
-    /* (El resto del CSS es idéntico) */
+    /* --- CSS DEL BOTÓN DE INICIO ELIMINADO --- */
 
     .info-overlay {
       position: fixed;
@@ -153,13 +150,14 @@
     <h3>🌟 Expomath RA</h3>
     <p>👆 Toca las figuras para ver info</p>
     <p>🔄 Arrastra para rotar la vista</p>
+    <p>📐 Gira 360° para ver todo</p>
     <p>🔊 Sonido al interactuar</p>
   </div>
 
-
-  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best;"
+  <a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best;" shadow="type: pcfsoft"
+    background="color: transparent; transparent: true"
     renderer="antialias: true; colorManagement: true; sortObjects: true; physicallyCorrectLights: true; alpha: true"
-    background="color: transparent; transparent: true" vr-mode-ui="enabled: false" loading-screen="enabled: false">
+    vr-mode-ui="enabled: false" loading-screen="enabled: false">
 
     <a-assets>
       <audio id="click-sound" src="https://cdn.aframe.io/examples/audio/click.ogg" preload="auto"></audio>
@@ -170,46 +168,51 @@
     <a-entity light="type: point; intensity: 0.4; distance: 10" position="0 2 0"></a-entity>
 
     <a-entity id="circle-container" position="0 1.2 0">
+
       <a-box id="cubo" position="0 0 -2.5" rotation="0 0 0"
         material="color: #FF4D4D; metalness: 0.7; roughness: 0.3; emissive: #FF0000; emissiveIntensity: 0.15"
         scale="0.8 0.8 0.8" animation="property: rotation; to: 0 360 0; dur: 10000; easing: linear; loop: true"
         sound="on: click; src: #click-sound">
         <a-plane class="info-panel" visible="false" position="0 1.2 0" rotation="0 0 0" width="2" height="1"
           material="color: #000000; opacity: 0.9; transparent: true; side: front" look-at="[camera]">
-          <a-text value="CUBO\nArea: 6a²\nVolumen: a³\nEjemplo: Caja de regalo" color="#FFFFFF" align="center"
+          <a-text value="CUBO\nArea: 6a**2\nVolumen: a**3\nEjemplo: Caja de regalo" color="#FFFFFF" align="center"
             width="1.8" position="0 0 0.05"></a-text>
         </a-plane>
       </a-box>
+
       <a-sphere id="esfera" position="1.96 0 -1.56" radius="0.5"
         material="color: #4D79FF; metalness: 0.8; roughness: 0.2; emissive: #0044FF; emissiveIntensity: 0.2"
         animation="property: position; to: 1.96 0.4 -1.56; dur: 2500; dir: alternate; easing: easeInOutSine; loop: true"
         sound="on: click; src: #click-sound">
         <a-plane class="info-panel" visible="false" position="0 1.2 0" rotation="0 0 0" width="2" height="1"
           material="color: #000000; opacity: 0.9; transparent: true; side: front" look-at="[camera]">
-          <a-text value="ESFERA\nArea: 4πr²\nVolumen: 4/3πr³\nEjemplo: Pelota" color="#FFFFFF" align="center"
+          <a-text value="ESFERA\nArea: 4PIr**2\nVolumen: 4/3PIr**3\nEjemplo: Pelota" color="#FFFFFF" align="center"
             width="1.8" position="0 0 0.05"></a-text>
         </a-plane>
       </a-sphere>
+
       <a-cylinder id="cilindro" position="2.44 0 0.52" radius="0.4" height="1"
         material="color: #FFB84D; metalness: 0.6; roughness: 0.3; emissive: #FF8800; emissiveIntensity: 0.15"
         animation="property: rotation; to: 0 360 0; dur: 8000; easing: linear; loop: true"
         sound="on: click; src: #click-sound">
         <a-plane class="info-panel" visible="false" position="0 1.2 0" rotation="0 0 0" width="2" height="1"
           material="color: #000000; opacity: 0.9; transparent: true; side: front" look-at="[camera]">
-          <a-text value="CILINDRO\nArea: 2πr(h+r)\nVolumen: πr²h\nEjemplo: Lata" color="#FFFFFF" align="center"
+          <a-text value="CILINDRO\nArea: 2PIr(h+r)\nVolumen: PIr**2h\nEjemplo: Lata" color="#FFFFFF" align="center"
             width="1.8" position="0 0 0.05"></a-text>
         </a-plane>
       </a-cylinder>
+
       <a-cone id="piramide" position="1.13 0 2.24" radius-bottom="0.45" height="0.9"
         material="color: #4DFF88; metalness: 0.5; roughness: 0.4; emissive: #00FF44; emissiveIntensity: 0.15"
         animation="property: rotation; to: 0 360 0; dur: 9000; easing: linear; loop: true"
         sound="on: click; src: #click-sound">
         <a-plane class="info-panel" visible="false" position="0 1.2 0" rotation="0 0 0" width="2" height="1"
           material="color: #000000; opacity: 0.9; transparent: true; side: front" look-at="[camera]">
-          <a-text value="PIRAMIDE\nVolumen: 1/3×base×h\nEjemplo: Pirámide Egipto" color="#FFFFFF" align="center"
+          <a-text value="PIRAMIDE\nVolumen: 1/3XbaseXh\nEjemplo: Pirámide Egipto" color="#FFFFFF" align="center"
             width="1.8" position="0 0 0.05"></a-text>
         </a-plane>
       </a-cone>
+
       <a-dodecahedron id="dodecaedro" position="-1.13 0 2.24" radius="0.5"
         material="color: #FFD700; metalness: 0.7; roughness: 0.3; emissive: #FFAA00; emissiveIntensity: 0.2"
         scale="0.8 0.8 0.8" animation="property: rotation; to: 360 360 0; dur: 15000; easing: linear; loop: true"
@@ -220,16 +223,18 @@
             width="1.8" position="0 0 0.05"></a-text>
         </a-plane>
       </a-dodecahedron>
+
       <a-torus id="torus" position="-2.44 0 0.52" radius="0.5" radius-tubular="0.15"
         material="color: #6A4DFF; metalness: 0.6; roughness: 0.3; emissive: #4400FF; emissiveIntensity: 0.15"
         rotation="90 0 0" animation="property: rotation; to: 90 360 0; dur: 11000; easing: linear; loop: true"
         sound="on: click; src: #click-sound">
         <a-plane class="info-panel" visible="false" position="0 1.2 0" rotation="-90 0 0" width="2" height="1"
           material="color: #000000; opacity: 0.9; transparent: true; side: front" look-at="[camera]">
-          <a-text value="TORUS (Dona)\nArea: 4π²Rr\nVolumen: 2π²Rr²\nEjemplo: Dona" color="#FFFFFF" align="center"
-            width="1.8" position="0 0 0.05"></a-text>
+          <a-text value="TORUS (Dona)\nArea: 4PI**2Rr\nVolumen: 2PI**2Rr**2\nEjemplo: Dona" color="#FFFFFF"
+            align="center" width="1.8" position="0 0 0.05"></a-text>
         </a-plane>
       </a-torus>
+
       <a-octahedron id="fractal" position="-1.96 0 -1.56" radius="0.55"
         material="color: #FF4DFF; metalness: 0.7; roughness: 0.2; emissive: #FF00FF; emissiveIntensity: 0.2"
         scale="0.75 0.75 0.75" animation="property: rotation; to: 360 360 360; dur: 13000; easing: linear; loop: true"
@@ -240,10 +245,11 @@
             width="1.8" position="0 0 0.05"></a-text>
         </a-plane>
       </a-octahedron>
+
     </a-entity>
 
     <a-entity camera look-controls="touchEnabled: true; magicWindowTrackingEnabled: true; pointerLockEnabled: false"
-      wasd-controls="enabled: false">
+      wasd-controls="enabled: false" position="0 1.6 0">
       <a-cursor fuse="true" fuse-timeout="1500" raycaster="objects: [id]; far: 10"
         material="color: #4D79FF; shader: flat" geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015">
         <a-animation begin="fusing" easing="ease-in" attribute="scale" fill="backwards" from="1 1 1" to="0.2 0.2 0.2"
@@ -254,22 +260,30 @@
   </a-scene>
 
   <script>
-    // (Todo el JavaScript se mantiene idéntico)
-
+    // ========== COMPONENTE LOOK-AT (de ra_no_camara.html) ==========
     AFRAME.registerComponent('look-at', {
       schema: { type: 'selector' },
-      init: function () { this.target = this.data; },
+
+      init: function () {
+        this.target = this.data;
+      },
+
       tick: function () {
-        if (!this.target) { this.target = document.querySelector('[camera]'); }
+        if (!this.target) {
+          this.target = document.querySelector('[camera]');
+        }
         if (this.target && this.el.object3D.visible) {
           this.el.object3D.lookAt(this.target.object3D.position);
         }
       }
     });
 
+    // ========== INTERACCIÓN (Modificada para quitar el botón) ==========
     document.addEventListener('DOMContentLoaded', function () {
       const figuras = ['cubo', 'esfera', 'cilindro', 'piramide', 'fractal', 'dodecaedro', 'torus'];
       let currentOpenPanel = null;
+
+      // --- Datos de Voz (de ra_no_camara.html) ---
       const speechData = {
         'cubo': 'Cubo: Área es igual a 6 por lado al cuadrado, Volumen es igual a lado al cubo, ejemplo: caja de regalo',
         'esfera': 'Esfera: Área es igual a 4 pi r cuadrado, Volumen es igual a 4 tercios pi r cubo, ejemplo: pelota',
@@ -281,10 +295,13 @@
       };
 
       const scene = document.querySelector('a-scene');
+      // --- Referencias al botón eliminadas ---
       const loadingEl = document.getElementById('loading');
       const toggleBtn = document.getElementById('toggle-info');
       const infoOverlay = document.getElementById('info-overlay');
       const clickSound = document.querySelector('#click-sound');
+
+      // --- Lógica del botón eliminada ---
 
       if (scene.hasLoaded) {
         runExperience();
@@ -292,6 +309,7 @@
         scene.addEventListener('loaded', runExperience);
       }
 
+      // Función para iniciar la UI y las interacciones
       function runExperience() {
         toggleBtn.style.display = 'flex';
         infoOverlay.style.display = 'block';
@@ -306,6 +324,7 @@
           });
         }
 
+        // Ocultar instrucciones
         setTimeout(() => {
           if (infoVisible) {
             infoOverlay.classList.add('hidden');
@@ -317,23 +336,29 @@
         setupInteractions();
       }
 
-
       function setupInteractions() {
         console.log('Configurando interacciones...');
+
         figuras.forEach(figuraId => {
           const figura = document.getElementById(figuraId);
           if (figura) {
             const infoPanel = figura.querySelector('.info-panel');
+
             figura.addEventListener('click', function (e) {
               e.stopPropagation();
+              console.log('Click en:', figuraId);
+
               if (currentOpenPanel && currentOpenPanel !== infoPanel) {
                 currentOpenPanel.setAttribute('visible', false);
               }
+
               if (infoPanel) {
                 const isVisible = infoPanel.getAttribute('visible') === 'true';
                 infoPanel.setAttribute('visible', !isVisible);
                 currentOpenPanel = !isVisible ? infoPanel : null;
               }
+
+              // --- Lógica de Voz ---
               if (speechData[figuraId]) {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(speechData[figuraId]);
@@ -342,6 +367,7 @@
               }
             });
 
+            // Efecto hover
             if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
               figura.addEventListener('mouseenter', function () {
                 const currentScale = figura.getAttribute('scale');
@@ -350,6 +376,7 @@
                   figura.setAttribute('scale', `${scale * 1.1} ${scale * 1.1} ${scale * 1.1}`);
                 }
               });
+
               figura.addEventListener('mouseleave', function () {
                 const currentScale = figura.getAttribute('scale');
                 if (currentScale) {
@@ -360,14 +387,17 @@
             }
           }
         });
+
         loadingEl.style.display = 'none';
       }
 
+      // Toggle de instrucciones
       let infoVisible = true;
       toggleBtn.addEventListener('click', function () {
         infoVisible = !infoVisible;
         infoOverlay.classList.toggle('hidden', !infoVisible);
         infoOverlay.classList.toggle('visible', infoVisible);
+
         if (clickSound) {
           clickSound.currentTime = 0;
           clickSound.play();
