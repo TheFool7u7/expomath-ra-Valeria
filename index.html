@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +35,7 @@
       pointer-events: none;
     }
 
-    /* Figuras geométricas flotantes */
+    /* (Estilos de .geometric-shape, @keyframes, .container, .logo, h1, p, botones, etc. sin cambios) */
     .geometric-shape {
       position: fixed;
       opacity: 0.1;
@@ -96,36 +97,48 @@
     }
 
     @keyframes float1 {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translate(0, 0) rotate(0deg);
       }
+
       25% {
         transform: translate(30px, -30px) rotate(90deg);
       }
+
       50% {
         transform: translate(0, -60px) rotate(180deg);
       }
+
       75% {
         transform: translate(-30px, -30px) rotate(270deg);
       }
     }
 
     @keyframes float2 {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translate(0, 0) rotate(45deg);
       }
+
       33% {
         transform: translate(-40px, 40px) rotate(135deg);
       }
+
       66% {
         transform: translate(40px, 40px) rotate(225deg);
       }
     }
 
     @keyframes float3 {
-      0%, 100% {
+
+      0%,
+      100% {
         transform: translate(0, 0) rotate(45deg);
       }
+
       50% {
         transform: translate(50px, 50px) rotate(225deg);
       }
@@ -151,13 +164,13 @@
         opacity: 0;
         transform: translateY(30px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
       }
     }
 
-    /* Campo para el logo */
     .logo-container {
       margin-bottom: 30px;
     }
@@ -215,7 +228,7 @@
     #open-3d {
       background: transparent;
       color: white;
-      border: 2px solid rgba(255, 255, 255, 0.5); 
+      border: 2px solid rgba(255, 255, 255, 0.5);
       padding: 18px 50px;
       font-size: 1.2em;
       font-weight: 600;
@@ -240,19 +253,35 @@
       font-weight: 600;
     }
 
+    /* --- INICIO CAMBIO QR --- */
     .qr-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .qr-code-wrapper {
       background: white;
       padding: 20px;
       border-radius: 20px;
-      display: inline-block;
       box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
-      margin-top: 10px;
+      margin: 10px;
     }
 
-    #qrcode {
+    .qr-code-wrapper h3 {
+      color: #2d3748;
+      font-size: 1em;
+      margin-bottom: 10px;
+    }
+
+    #qrcode,
+    #qrcode-no-camara {
       display: block;
       border-radius: 10px;
     }
+
+    /* --- FIN CAMBIO QR --- */
 
     .divider {
       width: 60px;
@@ -262,7 +291,6 @@
       border-radius: 2px;
     }
 
-    /* Responsive */
     @media (max-width: 600px) {
       .container {
         padding: 40px 25px;
@@ -281,8 +309,8 @@
         padding: 16px 40px;
       }
 
-      /* Figuras más pequeñas en móvil */
-      .shape1, .shape5 {
+      .shape1,
+      .shape5 {
         width: 50px;
         height: 50px;
       }
@@ -294,11 +322,10 @@
     }
   </style>
 </head>
+
 <body>
-  <!-- Canvas para estrellas -->
   <canvas id="stars-canvas"></canvas>
 
-  <!-- Figuras geométricas flotantes -->
   <div class="geometric-shape shape1"></div>
   <div class="geometric-shape shape2"></div>
   <div class="geometric-shape shape3"></div>
@@ -306,103 +333,80 @@
   <div class="geometric-shape shape5"></div>
 
   <div class="container">
-    <!-- logo de la U (Por que imagino que esto es de la U)-->
-      <div class="logo-container"> 
+    <div class="logo-container">
       <img src="img/Logo-de-UNADECA.png" alt="UNADECA Logo" class="logo">
     </div>
 
     <h1>Bienvenidos a Expomath RA</h1>
     <p>Explora figuras geométricas en realidad aumentada desde tu celular.</p>
-    
-    <button id="open-ra">Abrir RA</button>
+
+    <button id="open-ra">Abrir RA (Cámara)</button>
     <button id="open-3d">Ver en Visor 3D</button>
 
     <div class="divider"></div>
 
     <h2>O escanea este QR:</h2>
+
     <div class="qr-container">
-      <canvas id="qrcode"></canvas>
+      <div class="qr-code-wrapper">
+        <h3>RA (Cámara)</h3>
+        <canvas id="qrcode"></canvas>
+      </div>
+      <div class="qr-code-wrapper">
+        <h3>Visor 3D</h3>
+        <canvas id="qrcode-no-camara"></canvas>
+      </div>
     </div>
   </div>
 
   <script>
-    // ========== ANIMACIÓN DE ESTRELLAS ==========
+    // (Script de estrellas sin cambios)
     const canvas = document.getElementById('stars-canvas');
     const ctx = canvas.getContext('2d');
-    
-    // Ajustar canvas al tamaño de la ventana
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
+    function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
-
-    // Crear estrellas
     const stars = [];
-    const starCount = window.innerWidth < 768 ? 100 : 150; // Menos estrellas en móvil (para que no pete)
-
-    for (let i = 0; i < starCount; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() * 2,
-        opacity: Math.random(),
-        fadeSpeed: Math.random() * 0.01 + 0.005,
-        fadeDirection: Math.random() > 0.5 ? 1 : -1
-      });
-    }
-
-    // Animar estrellas
-    function animateStars() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      stars.forEach(star => {
-        // Actualizar opacidad para efecto de parpadeo (Es para la velocidad de parpadeo
-        //  por si quieres cambiar algo)
-        star.opacity += star.fadeSpeed * star.fadeDirection;
-        
-        if (star.opacity >= 1 || star.opacity <= 0.2) {
-          star.fadeDirection *= -1;
-        }
-        
-        // Dibujar estrellas
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-        ctx.fill();
-      });
-      
-      requestAnimationFrame(animateStars);
-    }
-
+    const starCount = window.innerWidth < 768 ? 100 : 150;
+    for (let i = 0; i < starCount; i++) { stars.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, radius: Math.random() * 2, opacity: Math.random(), fadeSpeed: Math.random() * 0.01 + 0.005, fadeDirection: Math.random() > 0.5 ? 1 : -1 }); }
+    function animateStars() { ctx.clearRect(0, 0, canvas.width, canvas.height); stars.forEach(star => { star.opacity += star.fadeSpeed * star.fadeDirection; if (star.opacity >= 1 || star.opacity <= 0.2) { star.fadeDirection *= -1; } ctx.beginPath(); ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2); ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`; ctx.fill(); }); requestAnimationFrame(animateStars); }
     animateStars();
 
     // ========== Parte para el QR ==========
     const raUrl = "https://thefool7u7.github.io/expomath-ra-Valeria/ra.html";
     const ra_no_camara = "https://thefool7u7.github.io/expomath-ra-Valeria/ra_no_camara.html";
-    QRCode.toCanvas(document.getElementById('qrcode'), raUrl, {
-      width: 200,
+
+    const qrOptions = {
+      width: 150, // Más pequeño para que quepan ambos
       margin: 2,
       color: {
         dark: '#2d3748',
         light: '#ffffff'
       }
-    }, function (error) {
+    };
+
+    // --- INICIO CAMBIO QR ---
+    // QR 1: Cámara
+    QRCode.toCanvas(document.getElementById('qrcode'), raUrl, qrOptions, function (error) {
       if (error) console.error(error);
-      console.log('QR generado correctamente!');
+      console.log('QR de RA (Cámara) generado!');
     });
 
-    // ========== BOTÓN PARA ABRIR RA ==========
+    // QR 2: Sin Cámara
+    QRCode.toCanvas(document.getElementById('qrcode-no-camara'), ra_no_camara, qrOptions, function (error) {
+      if (error) console.error(error);
+      console.log('QR de Visor 3D (No-Camara) generado!');
+    });
+    // --- FIN CAMBIO QR ---
+
+    // (Script de botones sin cambios)
     document.getElementById('open-ra').addEventListener('click', () => {
       window.location.href = raUrl;
     });
-    // ========== BOTÓN PARA ABRIR RA SIN CAMARA ==========
     document.getElementById('open-3d').addEventListener('click', () => {
       window.location.href = ra_no_camara;
     });
-    //Simplemente para que actualice todo
   </script>
 </body>
-</html>
 
+</html>
